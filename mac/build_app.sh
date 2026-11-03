@@ -34,7 +34,7 @@ if ! "$CXX" -std=c++14 -isysroot "$SDK" -c "$CHK/t.cpp" -o "$CHK/t.o" 2> "$CHK/e
   OLD=/Library/Developer/CommandLineTools/usr/include/c++
   if [[ -d "$OLD/v1" && ! -e "$OLD/v1/complex" && -e "$SDK/usr/include/c++/v1/complex" ]]; then
     # macOS の更新の後に、古いコマンドラインツールの不完全な C++ ヘッダーが残り、SDK のヘッダーより先に読まれている
-    echo "古い C++ ヘッダーのフォルダ（$OLD）が残っていて、SDK のヘッダーより先に読まれています。横に退けてください:" >&2
+    echo "古い C++ ヘッダーのフォルダ（${OLD}）が残っていて、SDK のヘッダーより先に読まれています。横に退けてください:" >&2
     echo "  sudo mv $OLD $OLD.old" >&2
     echo "（そのあと、もう一度 ./setup_mac.sh）" >&2
     exit 1
