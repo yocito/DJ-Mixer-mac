@@ -11,3 +11,6 @@ mix_notes/
 
 # Rust のビルド結果
 native/target/
+
+# Claude Code の作業用（worktree など）
+.claude/
