@@ -30,6 +30,8 @@ pub mod analysis {
     pub mod bulk;
     pub mod cache;
     pub mod cutpoints;
+    pub mod dsp;
+    pub mod features;
     pub mod pipeline;
     pub mod sections;
     pub mod stems;

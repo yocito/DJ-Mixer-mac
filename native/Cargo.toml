@@ -86,6 +86,7 @@ midir = "0.10"
 [dev-dependencies]
 tempfile = "3"
 flate2 = "1"
+base64 = "0.22"
 
 [profile.release]
 opt-level = 3

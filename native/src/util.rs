@@ -68,8 +68,19 @@ pub fn quantile(v: &[f64], q: f64) -> f64 {
     percentile(v, q * 100.0)
 }
 
+/// numpy.median（偶数個なら真ん中の 2 つの平均。percentile の補間とは最後の桁が違うことがある）
 pub fn median(v: &[f64]) -> f64 {
-    percentile(v, 50.0)
+    if v.is_empty() {
+        return f64::NAN;
+    }
+    let mut s: Vec<f64> = v.to_vec();
+    s.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+    let n = s.len();
+    if n % 2 == 1 {
+        s[n / 2]
+    } else {
+        (s[n / 2 - 1] + s[n / 2]) / 2.0
+    }
 }
 
 /// numpy.nanmedian（NaN を除いた中央値。全部 NaN なら NaN）
