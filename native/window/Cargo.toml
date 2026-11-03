@@ -1,0 +1,13 @@
+[package]
+name = "djmix-window"
+version = "0.1.0"
+edition = "2021"
+description = "DJ Mixer の専用ウィンドウ（tao + wry の WKWebView、メニュー、フォルダ選択）"
+license = "MIT"
+
+[dependencies]
+tao = "0.30"
+wry = "0.47"
+muda = "0.15"
+rfd = "0.15"
+log = "0.4"
