@@ -94,3 +94,22 @@ pub const AUDIO_VERSION: u32 = 1;
 pub fn audio_meta_path(track_id: i64) -> PathBuf {
     cache::track_dir(track_id).join("stems_audio.json")
 }
+
+// ---- STUB (export agent) ----
+// 分離した音（8ch = 4 パート × ステレオ）の読み書きは音源分離の移植で入れる。それまでの仮のもの（いつも「無い」）。
+
+/// 分離した音が保存してあるか
+pub fn audio_ready(_track_id: i64) -> bool {
+    false
+}
+
+/// 分離した音の start フレーム目から frames フレーム（8ch の planar）と、曲全体のフレーム数
+pub fn read_audio(_track_id: i64, _start: usize, _frames: usize) -> anyhow::Result<(Vec<Vec<f32>>, usize)> {
+    anyhow::bail!("分離した音がありません")
+}
+
+/// 曲を分離して、分離した音と小節ごとのパートの量を保存する
+pub fn compute_audio_for_track(_track_id: i64, _path: &str) -> anyhow::Result<Option<StemLevels>> {
+    anyhow::bail!("音源分離はまだ使えません")
+}
+// ---- END STUB ----

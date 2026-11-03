@@ -4,6 +4,7 @@
 pub mod config;
 pub mod db;
 pub mod edits;
+pub mod export;
 pub mod prefs;
 pub mod settings;
 pub mod util;
