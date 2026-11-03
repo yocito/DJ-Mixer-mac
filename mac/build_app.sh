@@ -13,6 +13,25 @@ if [[ "$(uname)" != "Darwin" ]]; then
   exit 1
 fi
 
+# C / C++ の部品（SQLite・Signalsmith Stretch・libvorbis）は Apple のコンパイラと macOS の SDK でビルドする。
+# PATH に Homebrew の gcc / llvm があったり SDKROOT が無かったりすると、<complex> などの標準ヘッダーが見つからないことがある
+SDK="$(xcrun --sdk macosx --show-sdk-path 2>/dev/null || true)"
+if [[ -z "$SDK" || ! -d "$SDK" ]]; then
+  echo "macOS の SDK が見つかりません。Xcode のコマンドラインツールを入れ直してください:" >&2
+  echo "  sudo rm -rf /Library/Developer/CommandLineTools && xcode-select --install" >&2
+  exit 1
+fi
+export SDKROOT="$SDK"
+export CC="$(xcrun --sdk macosx -f clang)"
+export CXX="$(xcrun --sdk macosx -f clang++)"
+if ! printf '#include <complex>\nint main(){std::complex<float> c(1,2);return (int)c.real()-1;}\n' \
+     | "$CXX" -std=c++14 -x c++ - -o /dev/null 2>/dev/null; then
+  echo "C++ の標準ヘッダー（<complex>）が使えません。Xcode のコマンドラインツールが壊れているか古いので、入れ直してください:" >&2
+  echo "  sudo rm -rf /Library/Developer/CommandLineTools && xcode-select --install" >&2
+  echo "（入れ直したあと、もう一度 ./setup_mac.sh）" >&2
+  exit 1
+fi
+
 echo "== Rust のビルド（release, features: ${FEATURES}）"
 (cd native && cargo build --release --features "$FEATURES")
 VERSION="$(grep -m1 '^version' native/Cargo.toml | sed -E 's/.*"(.*)".*/\1/')"
