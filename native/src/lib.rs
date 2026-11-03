@@ -4,6 +4,7 @@
 pub mod config;
 pub mod db;
 pub mod edits;
+pub mod ml;
 pub mod prefs;
 pub mod settings;
 pub mod util;
@@ -14,6 +15,7 @@ pub mod audio {
 
 pub mod analysis {
     pub mod bars;
+    pub mod beat_this;
     pub mod beats;
     pub mod cache;
     pub mod cutpoints;
