@@ -305,8 +305,8 @@ impl BulkAnalyzer {
         let r = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| -> Result<super::types::Analysis> {
             let (a, wave, feats, dprob) = pipeline::analyze_file(path)?;
             cache::write(tid, &a, &wave, &feats, &dprob)?;
-            if with_stems && crate::stubs::stems::available() {
-                if let Some(arr) = crate::stubs::stems::compute_for_track(tid, path)? {
+            if with_stems && crate::analysis::stems::available() {
+                if let Some(arr) = crate::analysis::stems::compute_for_track(tid, path)? {
                     let _ = arr;
                 }
             }

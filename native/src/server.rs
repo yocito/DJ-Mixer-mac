@@ -642,7 +642,7 @@ fn track_done(id: i64) -> ApiResult<(String, bool)> {
 async fn track_stems_audio(Path(id): Path<i64>, RawQuery(raw): RawQuery) -> ApiResult {
     let req = Q::parse(raw).i64("request").unwrap_or(1);
     blocking(move || {
-        if crate::stubs::stems::audio_ready(id) {
+        if crate::analysis::stems::audio_ready(id) {
             return Ok(Json(json!({"status": "done"})));
         }
         let (path, done) = track_done(id)?;
@@ -666,10 +666,10 @@ async fn track_stems_pcm(Path(id): Path<i64>, RawQuery(raw): RawQuery) -> Result
     let offset = q.i64("offset").unwrap_or(0).max(0) as usize;
     let frames = q.i64("frames").unwrap_or(441000).clamp(0, 44100 * 120) as usize;
     let (body, total, n) = blocking(move || {
-        if !crate::stubs::stems::audio_ready(id) {
+        if !crate::analysis::stems::audio_ready(id) {
             return Err(not_found("分離した音がまだありません"));
         }
-        let (y, total) = crate::stubs::stems::read_audio(id, offset, frames)?;
+        let (y, total) = crate::analysis::stems::read_audio(id, offset, frames)?;
         let n = y.first().map(|c| c.len()).unwrap_or(0);
         let mut out = Vec::with_capacity(n * 8 * 4);
         for ch in &y {

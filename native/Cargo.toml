@@ -21,6 +21,21 @@ path = "src/main.rs"
 default = []
 # 専用ウィンドウ（tao + wry）。テストではウィンドウを作らないので外せるようにしておく
 window = ["dep:djmix-window"]
+# ML 推論（ONNX Runtime。拍の検出 Beat This! と音源分離 htdemucs。モデルは tools/export_onnx.py で作る）
+# - ort-download: ONNX Runtime（1.22）をビルド時に cdn.pyke.io からダウンロードしてリンクする（Mac の配布用ビルド。
+#   例: cargo build --release --features window,ort-download,coreml）
+# - ort-dynamic: 実行時に ONNX Runtime の共有ライブラリを読む（ORT_DYLIB_PATH。無ければモデルの置き場所・
+#   実行ファイルの隣・../Frameworks・/opt/homebrew/lib を探す）。テスト用
+#   （例: ORT_DYLIB_PATH=<venv>/site-packages/onnxruntime/capi/libonnxruntime.so.1.31.1）
+# - coreml: CoreML の実行プロバイダを使う（ort-download / ort-dynamic のどちらかと一緒に。使えなければ CPU）
+# - ml: 内部用（上の 2 つが付ける。単独で付けると ONNX Runtime のリンク先が無くてビルドできない）
+# どれも付けないと ML の部分はビルドされない: beat_this::available() / stems::available() が false を返し、
+# detect / separate はエラーを返す（ONNX Runtime なしでふだんの cargo build / cargo test が通るように）。
+# 分離した音の保存・読み込み（Ogg Vorbis）は ML と関係なくいつも入る
+ml = ["dep:ort"]
+ort-download = ["ml", "ort/download-binaries"]
+ort-dynamic = ["ml", "ort/load-dynamic"]
+coreml = ["ort?/coreml"]
 
 [dependencies]
 anyhow = "1"
@@ -58,6 +73,12 @@ libc = "0.2"
 form_urlencoded = "1"
 unicode-normalization = "0.1"
 base64 = "0.22"
+
+ort = { version = "=2.0.0-rc.10", default-features = false, features = ["std", "ndarray"], optional = true }
+# 分離した音の保存（8ch の Ogg Vorbis。libvorbis / libogg は同梱の C を cc でビルドする）。
+# 書き込みは vorbis_rs、サンプル単位のシーク付きの読み込みは vorbisfile（ov_pcm_seek）を直接使う
+vorbis_rs = { version = "0.5.6", default-features = false }
+aotuv_lancer_vorbis_sys = "0.1.6"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 midir = "0.10"

@@ -46,10 +46,10 @@ pub fn after_analysis(tid: i64, path: &str) {
 
 /// パートの量（音源分離）を裏で求め、終わったらおまかせ用の要約も作り直す。
 pub fn request_stems(tid: i64, path: &str, audio: bool) -> &'static str {
-    if !crate::stubs::stems::available() {
+    if !crate::analysis::stems::available() {
         return "unavailable";
     }
-    crate::stubs::stems::request(
+    crate::analysis::stems::request(
         tid,
         path.to_string(),
         Some(Box::new(|tid, arr| {

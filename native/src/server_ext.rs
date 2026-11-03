@@ -29,6 +29,7 @@ pub fn routes(r: Router<Arc<AppState>>) -> Router<Arc<AppState>> {
         .route("/api/export/cancel", post(export_cancel))
         .route("/api/export/default-dir", get(|| async { Json(json!({"folder": writer::default_dir().to_string_lossy()})) }))
         .route("/ws/record", get(ws_record))
+        .route("/api/dev/sync-check", post(dev_sync_check))
 }
 
 // ---- おまかせ ----
@@ -189,6 +190,21 @@ async fn export_segment_audio(Path(_id): Path<i64>) -> ApiResult {
 async fn export_cancel() -> Json<Value> {
     render::cancel();
     Json(json!({"ok": true}))
+}
+
+// ---- 開発用: 同期の E2E 試験（左=A・右=B の録音から拍のずれ）。windows="20.5-55,83-99.5" で比べる区間 ----
+async fn dev_sync_check(RawQuery(raw): RawQuery, body: axum::body::Bytes) -> ApiResult {
+    let q = Q::parse(raw);
+    let k = q.f64("k").unwrap_or(1.0);
+    let win: Option<Vec<(f64, f64)>> = q.get("windows").map(|w| {
+        w.split(',')
+            .filter_map(|p| {
+                let (a, b) = p.split_once('-')?;
+                Some((a.trim().parse().ok()?, b.trim().parse().ok()?))
+            })
+            .collect()
+    });
+    blocking(move || Ok(Json(crate::devtools::sync_check(&body, k, 3.0, win)?))).await
 }
 
 // ---- 再生しながら録音する ----
