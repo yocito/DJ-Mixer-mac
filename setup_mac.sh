@@ -48,7 +48,7 @@ if ! command -v cargo >/dev/null 2>&1; then
 fi
 cargo --version
 
-say "学習済みモデル（$MODELS）"
+say "学習済みモデル（${MODELS}）"
 if [[ -f "$MODELS/beat_this_final0.onnx" && -f "$MODELS/htdemucs.onnx" && "${1:-}" != "--models" ]]; then
   echo "変換済みです（作り直すときは ./setup_mac.sh --models）"
 else

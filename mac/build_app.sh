@@ -13,7 +13,7 @@ if [[ "$(uname)" != "Darwin" ]]; then
   exit 1
 fi
 
-echo "== Rust のビルド（release, features: $FEATURES）"
+echo "== Rust のビルド（release, features: ${FEATURES}）"
 (cd native && cargo build --release --features "$FEATURES")
 VERSION="$(grep -m1 '^version' native/Cargo.toml | sed -E 's/.*"(.*)".*/\1/')"
 
