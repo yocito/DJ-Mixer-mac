@@ -17,6 +17,8 @@ pub mod analysis {
     pub mod beats;
     pub mod cache;
     pub mod cutpoints;
+    pub mod dsp;
+    pub mod features;
     pub mod sections;
     pub mod stems;
     pub mod types;
