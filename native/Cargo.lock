@@ -906,6 +906,7 @@ dependencies = [
  "bytes",
  "chrono",
  "encoding_rs",
+ "flate2",
  "futures-util",
  "half",
  "hound",

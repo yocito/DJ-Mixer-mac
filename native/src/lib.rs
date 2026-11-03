@@ -29,5 +29,8 @@ pub mod library {
 }
 
 pub mod planner {
+    pub mod desc;
+    pub mod engine;
     pub mod genres;
+    pub mod segments;
 }
