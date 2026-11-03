@@ -1,15 +1,5 @@
 //! 統合前の仮の関数（並行して移植している部分。統合したら消す）
 #![allow(dead_code, unused_variables)]
-pub mod desc {
-    use crate::analysis::stems::StemLevels;
-    use crate::analysis::types::{Analysis, BarFeats};
-    pub fn update(tid: i64, a: &Analysis, feats: &BarFeats, stems: Option<&StemLevels>) -> anyhow::Result<()> {
-        Ok(())
-    }
-    pub fn backfill() -> anyhow::Result<usize> {
-        Ok(0)
-    }
-}
 pub mod stems {
     use crate::analysis::stems::StemLevels;
     pub fn available() -> bool {

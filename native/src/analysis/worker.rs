@@ -37,7 +37,7 @@ pub fn after_analysis(tid: i64, path: &str) {
     sections::forget(tid);
     cutpoints::forget(tid);
     if let (Some(a), Some(feats)) = (cache::read(tid), cache::bars_array(tid)) {
-        if let Err(e) = crate::stubs::desc::update(tid, &a, &feats, None) {
+        if let Err(e) = crate::planner::desc::update(tid, &a, &feats, None) {
             log::warn!("desc update failed for {tid}: {e:#}");
         }
     }
@@ -54,7 +54,7 @@ pub fn request_stems(tid: i64, path: &str, audio: bool) -> &'static str {
         path.to_string(),
         Some(Box::new(|tid, arr| {
             if let (Some(a), Some(feats)) = (cache::read(tid), cache::bars_array(tid)) {
-                let _ = crate::stubs::desc::update(tid, &a, &feats, Some(arr));
+                let _ = crate::planner::desc::update(tid, &a, &feats, Some(arr));
             }
         })),
         audio,

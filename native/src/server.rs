@@ -79,7 +79,7 @@ impl AppState {
         std::thread::Builder::new()
             .name("desc-backfill".into())
             .spawn(|| {
-                if let Err(e) = crate::stubs::desc::backfill() {
+                if let Err(e) = crate::planner::desc::backfill() {
                     log::warn!("desc backfill: {e:#}");
                 }
             })

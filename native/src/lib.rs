@@ -9,6 +9,7 @@ pub mod logging;
 pub mod midi;
 pub mod mixes;
 pub mod prefs;
+pub mod query_util;
 pub mod queues;
 pub mod server;
 pub mod server_ext;
@@ -43,5 +44,8 @@ pub mod library {
 }
 
 pub mod planner {
+    pub mod desc;
+    pub mod engine;
     pub mod genres;
+    pub mod segments;
 }

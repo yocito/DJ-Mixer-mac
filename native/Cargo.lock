@@ -954,6 +954,7 @@ dependencies = [
  "chrono",
  "djmix-window",
  "encoding_rs",
+ "flate2",
  "form_urlencoded",
  "futures-util",
  "half",

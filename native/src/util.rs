@@ -6,13 +6,15 @@ pub fn now() -> f64 {
     SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_secs_f64()).unwrap_or(0.0)
 }
 
-/// Python の round(x, n) に近い丸め（ちょうど半分のときの扱いだけ違うことがある）。
+/// Python の round(x, n) と同じ丸め（2 進の値そのものを 10 進で丸める。ちょうど半分は偶数へ）。
 pub fn round(x: f64, n: i32) -> f64 {
     if !x.is_finite() {
         return x;
     }
-    let m = 10f64.powi(n);
-    let r = (x * m).round() / m;
+    let r: f64 = if n >= 0 { format!("{:.*}", n as usize, x).parse().unwrap_or(x) } else {
+        let m = 10f64.powi(-n);
+        (x / m).round_ties_even() * m
+    };
     if r == 0.0 {
         0.0
     } else {
@@ -181,6 +183,15 @@ mod tests {
         assert!((percentile(&v, 50.0) - 2.5).abs() < 1e-12);
         assert!((percentile(&v, 80.0) - 3.4).abs() < 1e-12);
         assert!((median(&[3.0, 1.0, 2.0]) - 2.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn round_like_python() {
+        assert_eq!(round(298.9765, 3), 298.976);
+        assert_eq!(round(0.125, 2), 0.12);
+        assert_eq!(round(2.675, 2), 2.67);
+        assert_eq!(round(-1.5, 0), -2.0);
+        assert_eq!(round(0.5, 0), 0.0);
     }
 
     #[test]
