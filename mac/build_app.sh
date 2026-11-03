@@ -24,8 +24,13 @@ fi
 export SDKROOT="$SDK"
 export CC="$(xcrun --sdk macosx -f clang)"
 export CXX="$(xcrun --sdk macosx -f clang++)"
-if ! printf '#include <complex>\nint main(){std::complex<float> c(1,2);return (int)c.real()-1;}\n' \
-     | "$CXX" -std=c++14 -x c++ - -o /dev/null 2>/dev/null; then
+CHK="$(mktemp -d)"
+printf '#include <complex>\nint main(){std::complex<float> c(1,2);return (int)c.real()-1;}\n' > "$CHK/t.cpp"
+if ! "$CXX" -std=c++14 -isysroot "$SDK" -c "$CHK/t.cpp" -o "$CHK/t.o" 2> "$CHK/err.txt"; then
+  echo "コンパイラ: $CXX" >&2
+  echo "SDK: $SDK" >&2
+  tail -20 "$CHK/err.txt" >&2
+  echo "" >&2
   echo "C++ の標準ヘッダー（<complex>）が使えません。Xcode のコマンドラインツールが壊れているか古いので、入れ直してください:" >&2
   echo "  sudo rm -rf /Library/Developer/CommandLineTools && xcode-select --install" >&2
   echo "（入れ直したあと、もう一度 ./setup_mac.sh）" >&2
