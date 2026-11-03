@@ -4,6 +4,7 @@
 pub mod config;
 pub mod db;
 pub mod edits;
+pub mod export;
 pub mod logging;
 pub mod midi;
 pub mod mixes;
