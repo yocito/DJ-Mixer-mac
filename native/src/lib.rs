@@ -4,6 +4,7 @@
 pub mod config;
 pub mod db;
 pub mod edits;
+pub mod prefs;
 pub mod settings;
 pub mod util;
 
@@ -22,6 +23,8 @@ pub mod analysis {
 }
 
 pub mod library {
+    pub mod itunes;
+    pub mod roots;
     pub mod textfix;
 }
 
