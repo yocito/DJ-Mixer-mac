@@ -287,7 +287,7 @@ export function initJoinsView({ root, colors, onPreview, onEditJoin }) {
     drawWave(g, db, ub.t0, bEnd, ovX0, W, lh + 6 * dp, lh, colors, 0.95);
     g.fillStyle = colors['--deck-a']; g.fillRect(0, 0, 3 * dp, lh);
     g.fillStyle = colors['--deck-b']; g.fillRect(ovX0, lh + 6 * dp, 3 * dp, lh);
-    g.fillStyle = '#e8e8e8'; g.font = `${11 * dp}px "Yu Gothic UI"`;
+    g.fillStyle = '#e8e8e8'; g.font = `${11 * dp}px "Hiragino Sans", "Yu Gothic UI", sans-serif`;
     g.fillText(n ? `重なり ${n} 小節` : '重ねずに切り替え', ovX0 + 6 * dp, H / 2 + 4 * dp);
   }
 

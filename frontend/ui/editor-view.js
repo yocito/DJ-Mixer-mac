@@ -388,12 +388,12 @@ export function initJoinEditor({ root, colors, onPreview, onStop, onBack, playhe
     const mark = (x, y, col, label) => {
       g.fillStyle = col; g.fillRect(Math.round(x) - dp, y, 2 * dp, lh);
       g.beginPath(); g.moveTo(x, y); g.lineTo(x + 9 * dp, y); g.lineTo(x, y + 11 * dp); g.closePath(); g.fill();
-      g.fillStyle = '#e8e8e8'; g.font = `${11 * dp}px "Yu Gothic UI"`; g.fillText(label, x + 6 * dp, y + lh - 6 * dp);
+      g.fillStyle = '#e8e8e8'; g.font = `${11 * dp}px "Hiragino Sans", "Yu Gothic UI", sans-serif`; g.fillText(label, x + 6 * dp, y + lh - 6 * dp);
     };
     mark(xb(G.n), yA, colors['--deck-a'], `前の曲の終わり ${fmt(da.barTimes[G.aEnd] ?? G.ua.t1)}（${G.aEnd + 1}小節目）`);
     mark(xb(G.bOff), yB, colors['--deck-b'], `次の曲の始まり ${fmt(db.barTimes[G.bIn] ?? G.ub.t0)}（${G.bIn + 1}小節目）`);
-    if (G.loop) { g.fillStyle = '#facc15'; g.font = `${11 * dp}px "Yu Gothic UI"`; g.fillText(`↻ 最後の ${G.loop} 小節を繰り返す`, xb(G.n - G.loop) + 4 * dp, yA + 14 * dp); }
-    g.fillStyle = '#e8e8e8'; g.font = `${12 * dp}px "Yu Gothic UI"`;
+    if (G.loop) { g.fillStyle = '#facc15'; g.font = `${11 * dp}px "Hiragino Sans", "Yu Gothic UI", sans-serif`; g.fillText(`↻ 最後の ${G.loop} 小節を繰り返す`, xb(G.n - G.loop) + 4 * dp, yA + 14 * dp); }
+    g.fillStyle = '#e8e8e8'; g.font = `${12 * dp}px "Hiragino Sans", "Yu Gothic UI", sans-serif`;
     // 重なりが短いときは、前の曲の終わりの文字と重ならないよう重なりの左側に書く
     const narrow = G.n * W / view < 140 * dp;
     g.textAlign = narrow ? 'right' : 'left';
@@ -443,14 +443,14 @@ export function initJoinEditor({ root, colors, onPreview, onStop, onBack, playhe
         x === 0 ? g.moveTo(x, y) : g.lineTo(x, y);
       }
       g.stroke();
-      g.fillStyle = colors['--dim']; g.font = `${11 * dp}px "Yu Gothic UI"`;
+      g.fillStyle = colors['--dim']; g.font = `${11 * dp}px "Hiragino Sans", "Yu Gothic UI", sans-serif`;
       g.fillText(key === 'rate' ? `${name}  ${(100).toFixed(0)}% → ${(G.rampTo * 100).toFixed(1)}%` : name, 8 * dp, r * rh + 18 * dp);
     });
     const ed = EDITABLE[G.eff.tpl], p = G.eff.params;
     if (ed.includes('swap')) {
       const x = Math.round(xb(p.swapAt * G.n));
       g.fillStyle = '#facc15'; g.fillRect(x - dp, 0, 2 * dp, H);
-      g.font = `${11 * dp}px "Yu Gothic UI"`; g.fillText('低音の入れ替え', x + 5 * dp, H - 6 * dp);
+      g.font = `${11 * dp}px "Hiragino Sans", "Yu Gothic UI", sans-serif`; g.fillText('低音の入れ替え', x + 5 * dp, H - 6 * dp);
     }
     if (ed.includes('xf')) {
       const h = rh - 14 * dp, y0 = 8 * dp;

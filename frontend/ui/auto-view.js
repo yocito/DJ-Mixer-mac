@@ -279,7 +279,7 @@ export function initAutoView({ root, colors, queue, flash, previewTrack, preview
         g.fillStyle = '#050607'; g.fillRect(0, 0, W, H);
         g.font = `${10 * d}px Consolas`;
         for (let q = 0; q <= 4; q++) { const x = Math.round(X(q * (CURVE_N - 1) / 4)); g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(x, pad, d, H - 2 * pad); g.fillStyle = colors['--faint']; g.fillText(`${Math.round(cond.minutes * q / 4)}分`, x - 8 * d, H - 8 * d); }
-        g.fillStyle = colors['--dim']; g.font = `${11 * d}px "Yu Gothic UI"`; g.fillText('盛り上がる', 4 * d, pad - 8 * d); g.fillText('静か', 4 * d, H - pad + 14 * d);
+        g.fillStyle = colors['--dim']; g.font = `${11 * d}px "Hiragino Sans", "Yu Gothic UI", sans-serif`; g.fillText('盛り上がる', 4 * d, pad - 8 * d); g.fillText('静か', 4 * d, H - pad + 14 * d);
         g.strokeStyle = '#fb923c'; g.lineWidth = 3 * d; g.lineJoin = 'round'; g.beginPath();
         curve.forEach((e, k) => (k ? g.lineTo(X(k), Y(e)) : g.moveTo(X(k), Y(e)))); g.stroke();
       };
@@ -502,7 +502,7 @@ export function initAutoView({ root, colors, queue, flash, previewTrack, preview
       g.closePath(); g.globalAlpha = 0.75; g.fillStyle = lane ? colors['--deck-b'] : colors['--deck-a']; g.fill(); g.globalAlpha = 1;
       if (i === sel) { g.strokeStyle = '#fff'; g.lineWidth = 2 * d; g.strokeRect(x0, y + 2 * d, x1 - x0, laneH - 4 * d); }
       g.save(); g.beginPath(); g.rect(x0, y, x1 - x0, laneH); g.clip();
-      g.fillStyle = '#fff'; g.font = `600 ${11 * d}px "Yu Gothic UI"`; g.shadowColor = '#000'; g.shadowBlur = 3 * d;
+      g.fillStyle = '#fff'; g.font = `600 ${11 * d}px "Hiragino Sans", "Yu Gothic UI", sans-serif`; g.shadowColor = '#000'; g.shadowBlur = 3 * d;
       g.fillText(`${i + 1}. ${l.t.title ?? ''}`, x0 + 5 * d, y + 14 * d);
       g.restore();
       boxes.push({ i, x0: x0 / d, x1: x1 / d, y0: y / d, y1: (y + laneH) / d });
@@ -511,7 +511,7 @@ export function initAutoView({ root, colors, queue, flash, previewTrack, preview
       if (!l.ov) return;
       const x0 = X(l.start + l.len - l.ov), x1 = X(l.start + l.len), echo = l.t.join?.tpl === 'echo';
       g.fillStyle = echo ? 'rgba(234,179,8,.22)' : 'rgba(34,197,94,.22)'; g.fillRect(x0, top, x1 - x0, 2 * laneH);
-      g.fillStyle = echo ? colors['--warn'] : colors['--ok']; g.font = `${10 * d}px "Yu Gothic UI"`;
+      g.fillStyle = echo ? colors['--warn'] : colors['--ok']; g.font = `${10 * d}px "Hiragino Sans", "Yu Gothic UI", sans-serif`;
       g.fillText(TPL[l.t.join?.tpl] ?? '', x0, top + 2 * laneH + 13 * d);
     });
     // エネルギーの流れ

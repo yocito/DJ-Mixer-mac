@@ -1,4 +1,4 @@
-// 起動時の実行環境チェック（design_phase1.md §9「WebView2 で setSinkId や AudioWorklet の挙動がブラウザと違う」への対策）。
+// 起動時の実行環境チェック（design_phase1.md §9「WebView で setSinkId や AudioWorklet の挙動がブラウザと違う」への対策。Mac 版は WKWebView）。
 // 結果はバックエンドのログ(data/djmix.log)に送り、ヘッダーにも短く表示する。
 //
 // Signalsmith Stretch のノードは、音声スレッドが動き出してから準備完了を返す。自動再生制限で AudioContext が
@@ -28,7 +28,7 @@ export async function runDiagnostics() {
   const checks = {};
   checks.AudioContext = typeof AudioContext === 'function';
   checks.AudioWorklet = checks.AudioContext && 'audioWorklet' in AudioContext.prototype;
-  checks.setSinkId = checks.AudioContext && 'setSinkId' in AudioContext.prototype;
+  checks.setSinkId = String(checks.AudioContext && 'setSinkId' in AudioContext.prototype);   // Mac（WKWebView）には無い。出力は Mac の設定で選ぶので NG にしない
   checks.WebAssembly = typeof WebAssembly === 'object';
   checks.WebSocket = typeof WebSocket === 'function';
   const ctx = new AudioContext({ latencyHint: 'interactive', sampleRate: 44100 });

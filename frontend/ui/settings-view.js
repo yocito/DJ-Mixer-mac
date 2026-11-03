@@ -27,9 +27,9 @@ function itunesHTML(it) {
   const counts = ok ? `<div class="kv"><span>曲</span><span>${L.tracks.toLocaleString()} 曲中 ${L.matched.toLocaleString()} 曲がライブラリの曲と対応</span>
       <span>★</span><span>${L.rated.toLocaleString()} 曲</span><span>再生回数</span><span>${L.played.toLocaleString()} 曲</span>
       <span>プレイリスト</span><span>${L.playlists} 本</span></div>` : '';
-  const howto = it.enabled && !it.exists ? `<p class="note" style="line-height:1.9">iTunes が他のアプリ向けの XML を書き出していません。iTunes で次の設定を入れると、自動で見つけます。<br>
-      <b>iTunes → 編集 → 環境設定 → 詳細 →「iTunes ライブラリ XML をほかのアプリケーションと共有」にチェック</b><br>
-      入れた後、iTunes で何か 1 曲再生するか ★ を付けると XML が書き出されます。</p>` : '';
+  const howto = it.enabled && !it.exists ? `<p class="note" style="line-height:1.9">ミュージック.app（iTunes）が他のアプリ向けの XML を書き出していません。次の設定を入れると、自動で見つけます。<br>
+      <b>ミュージック → 設定… → 詳細 →「ライブラリ XML をほかのアプリケーションと共有」にチェック</b><br>
+      入れた後、ミュージックで何か 1 曲再生するか ★ を付けると XML（~/Music/Music/Library.xml）が書き出されます。</p>` : '';
   return `<section><h3>iTunes との連携</h3>
       <p class="note">iTunes の ★・再生回数・最後に再生した日・プレイリストを読むだけで取り込みます（iTunes 側も、音楽ファイルのタグも変えません）。</p>
       <div class="srow"><label>状態</label><div>${state}</div></div>${counts}${howto}
@@ -77,7 +77,9 @@ export async function renderSettings(root, ctx) {
   root.innerHTML = `
   <div class="settings">
     <section><h3>音声出力</h3>
-      <div class="srow"><label>出力デバイス</label>${sel('output_device', [['', '既定のデバイス'], ...devices.map((d, i) => [d.deviceId, d.label || `出力デバイス ${i + 1}`])], s.output_device)}</div>
+      <div class="srow"><label>出力デバイス</label>${'setSinkId' in AudioContext.prototype
+        ? sel('output_device', [['', '既定のデバイス'], ...devices.map((d, i) => [d.deviceId, d.label || `出力デバイス ${i + 1}`])], s.output_device)
+        : '<span class="note">Mac の「システム設定」→「サウンド」→「出力」で選んだ機器から鳴ります</span>'}</div>
       <p class="note">ヘッドホンでの事前試聴（キュー）は使わない設計です（出力は 1 系統）。</p></section>
     <section><h3>音量・テンポ</h3>
       <div class="srow"><label>音量補正の目標</label>${sel('lufs_target', [-18, -16, -14, -12, -10].map(v => [v, `${v} LUFS${v === -14 ? '（標準）' : ''}`]), s.lufs_target)}</div>
@@ -87,7 +89,7 @@ export async function renderSettings(root, ctx) {
     <section><h3>ライブラリ</h3>
       <div class="srow" style="align-items:flex-start"><label>音楽フォルダ</label><div style="flex:1">
         <div class="rootlist">${rootsHTML(stats?.roots ?? [])}</div>
-        <div class="rootadd"><input data-newroot placeholder="追加するフォルダのパス（例: D:\\Music）" style="flex:1">
+        <div class="rootadd"><input data-newroot placeholder="追加するフォルダのパス（例: /Volumes/外付け/Music）" style="flex:1">
           <div class="btn" data-addroot>追加</div><div class="btn" data-pickroot>フォルダを選ぶ…</div></div></div></div>
       <p class="note">外したフォルダの曲は、ライブラリ・おまかせ・まとめて解析に出なくなります（消しません。★・履歴・解析結果は残り、「戻す」で元どおりに見えます）。
         外付けドライブが外れているときは、そのフォルダを飛ばします（曲は消しません）。</p>
