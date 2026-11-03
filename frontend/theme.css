@@ -5,14 +5,14 @@
   --deck-a:#22d3ee; --deck-b:#fb923c;
   --wave-low:#2563eb; --wave-mid:#f59e0b; --wave-high:#f5f5f5;
   --active:#ef4444; --ok:#22c55e; --warn:#eab308;
-  --mono:"Consolas","Cascadia Mono",monospace;
+  --mono:"SF Mono","Menlo","Consolas","Cascadia Mono",monospace;
   /* 操作系の寸法（ユーザー要望: ボタン1.5倍・ノブ2倍） */
   --btn-h:45px; --btn-minw:66px; --btn-fs:13px;
   --big:110px; --pad-w:84px; --pad-h:60px; --knob:76px;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
-  font-family:"Yu Gothic UI","Segoe UI",sans-serif;font-size:13px;user-select:none;
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN",-apple-system,"Yu Gothic UI","Segoe UI",sans-serif;font-size:13px;user-select:none;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .app{display:grid;grid-template-rows:auto auto 1fr;height:100vh;min-width:1600px}
 /* ---- header ---- */
@@ -142,7 +142,7 @@ tr:hover td{background:#1c1f24}
 .qi .t2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--dim);font-size:11px;margin-top:1px}
 .qi .meta{text-align:right;font-family:var(--mono);font-size:12px;line-height:1.35}
 .qi .meta span{color:var(--dim)}
-.chip{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;border:1px solid var(--line);color:var(--dim);font-family:"Yu Gothic UI",sans-serif;margin-left:4px}
+.chip{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;border:1px solid var(--line);color:var(--dim);font-family:"Hiragino Sans","Yu Gothic UI",sans-serif;margin-left:4px}
 .chip.a{color:#000;background:var(--deck-a);border-color:var(--deck-a)}
 .chip.b{color:#000;background:var(--deck-b);border-color:var(--deck-b)}
 .chip.next{color:var(--text);border-color:#5b6470}

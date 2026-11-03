@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>DJ Mixer</string>
+	<key>CFBundleDisplayName</key>
+	<string>DJ Mixer</string>
+	<key>CFBundleIdentifier</key>
+	<string>local.djmixer.app</string>
+	<key>CFBundleVersion</key>
+	<string>__VERSION__</string>
+	<key>CFBundleShortVersionString</key>
+	<string>__VERSION__</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleExecutable</key>
+	<string>djmix</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>ja</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>13.0</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.music</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
+	<!-- 画面はこのアプリが 127.0.0.1 で立てるサーバーから読む（WKWebView が http の自分の Mac への接続を許すように） -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<!-- 外付けドライブ・書類フォルダの音楽フォルダを読むときに出る確認の文 -->
+	<key>NSRemovableVolumesUsageDescription</key>
+	<string>外付けドライブにある音楽フォルダの曲を読み込みます。</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>書類フォルダにある音楽フォルダの曲を読み込みます。</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>デスクトップにある音楽フォルダの曲を読み込みます。</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>ダウンロードフォルダにある音楽フォルダの曲を読み込みます。</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>ミュージックのライブラリ XML（★・再生回数・プレイリスト）を読み込みます。</string>
+</dict>
+</plist>

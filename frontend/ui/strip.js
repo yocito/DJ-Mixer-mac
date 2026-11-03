@@ -89,7 +89,7 @@ function drawLane(g, W, y0, h, d, deck, colors, flip, bm) {
     }
   } else if (deck.track) {
     g.fillStyle = colors['--faint'];
-    g.font = `${12 * d}px "Yu Gothic UI", sans-serif`;
+    g.font = `${12 * d}px "Hiragino Sans", "Yu Gothic UI", sans-serif`;
     g.fillText('解析中…（再生はできます）', 12 * d, mid + 4 * d);
   }
   // 拍線・小節線

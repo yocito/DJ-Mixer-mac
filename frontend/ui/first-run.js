@@ -10,7 +10,7 @@ export async function checkFirstRun({ apply, flash }) {
   if (!st || (st.roots ?? []).some(r => r.active)) return;
   openModal(`<h3>はじめに: 音楽フォルダを選んでください</h3>
     <p class="lbl2" style="line-height:1.8">このアプリは、パソコンの中の音楽ファイル（MP3・AAC/M4A・FLAC・WAV など）を読み込んで使います。
-      曲が入っているフォルダ（例: <code>C:\\Users\\（ユーザー名）\\Music</code>、iTunes なら <code>…\\Music\\iTunes\\iTunes Media\\Music</code>）を選んでください。
+      曲が入っているフォルダ（例: <code>/Users/（ユーザー名）/Music</code>、ミュージック.app なら <code>…/Music/Music/Media.localized/Music</code>）を選んでください。
       あとから設定タブの「音楽フォルダ」で追加・変更できます。</p>
     <div class="exrow"><input data-fr placeholder="フォルダのパス" style="flex:1"><div class="btn" data-frpick>フォルダを選ぶ…</div></div>
     <div class="lbl2" data-frmsg style="color:var(--active)"></div>

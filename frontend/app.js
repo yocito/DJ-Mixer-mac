@@ -514,6 +514,10 @@ async function applySettings(patch, save = true) {
 
 async function setOutput(deviceId) {
   const el = document.getElementById('outdev');
+  if (!('setSinkId' in AudioContext.prototype)) {        // Mac（WKWebView）: 出力は Mac の「サウンド」設定で選ぶ
+    el.textContent = 'Mac の出力';
+    return;
+  }
   try {
     await engine.ctx.setSinkId(deviceId || '');
     const d = (await outputDevices()).find(x => x.deviceId === deviceId);

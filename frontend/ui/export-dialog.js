@@ -5,7 +5,7 @@ import { putSettings } from './settings-view.js';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const STORE = 'djmix.export';
-/** エクスプローラーで開く（ファイルならフォルダを開いて選んだ状態に）。 */
+/** Finder で開く（ファイルならフォルダを開いて選んだ状態に）。 */
 export async function reveal(path) {
   const r = await fetch('/api/reveal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path }) });
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail ?? 'フォルダを開けませんでした');
@@ -35,7 +35,7 @@ export async function openExport(o) {
     </div>
     <div class="exrow"><span class="lbl2">形式</span><div class="seg2" data-fmt>
       ${[['wav', 'WAV（劣化なし）'], ['mp3_320', 'MP3 320kbps'], ['mp3_192', 'MP3 192kbps']].map(([v, l]) => `<div data-v="${v}" class="${v === pref.format ? 'on' : ''}">${l}</div>`).join('')}</div></div>
-    <div class="exrow"><span class="lbl2">保存先</span><input data-folder value="${esc(pref.folder)}" style="flex:1"><div class="btn" data-open title="保存先のフォルダをエクスプローラーで開きます">📂 開く</div></div>
+    <div class="exrow"><span class="lbl2">保存先</span><input data-folder value="${esc(pref.folder)}" style="flex:1"><div class="btn" data-open title="保存先のフォルダを Finder で開きます">📂 開く</div></div>
     <div class="exrow"><span class="lbl2">名前</span><input data-name value="${esc(name)}" style="flex:1"></div>
     <div class="exrow"><label><input type="checkbox" data-tl ${pref.tracklist ? 'checked' : ''}> 曲目リスト（開始時刻つき）も書き出す</label></div>
     <p class="lbl2" style="line-height:1.7">書き出したミックスは個人で楽しむ範囲でお使いください。</p>

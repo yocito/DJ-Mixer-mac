@@ -1,0 +1,97 @@
+[workspace]
+members = [".", "window"]
+
+[package]
+name = "djmix"
+version = "0.1.0"
+edition = "2021"
+description = "DJ Mixer for macOS (Rust port of the Windows/Python version)"
+license = "MIT"
+default-run = "djmix"
+
+[lib]
+name = "djmix"
+path = "src/lib.rs"
+
+[[bin]]
+name = "djmix"
+path = "src/main.rs"
+
+[features]
+default = []
+# 専用ウィンドウ（tao + wry）。テストではウィンドウを作らないので外せるようにしておく
+window = ["dep:djmix-window"]
+# ML 推論（ONNX Runtime。拍の検出 Beat This! と音源分離 htdemucs。モデルは tools/export_onnx.py で作る）
+# - ort-download: ONNX Runtime（1.22）をビルド時に cdn.pyke.io からダウンロードしてリンクする（Mac の配布用ビルド。
+#   例: cargo build --release --features window,ort-download,coreml）
+# - ort-dynamic: 実行時に ONNX Runtime の共有ライブラリを読む（ORT_DYLIB_PATH。無ければモデルの置き場所・
+#   実行ファイルの隣・../Frameworks・/opt/homebrew/lib を探す）。テスト用
+#   （例: ORT_DYLIB_PATH=<venv>/site-packages/onnxruntime/capi/libonnxruntime.so.1.31.1）
+# - coreml: CoreML の実行プロバイダを使う（ort-download / ort-dynamic のどちらかと一緒に。使えなければ CPU）
+# - ml: 内部用（上の 2 つが付ける。単独で付けると ONNX Runtime のリンク先が無くてビルドできない）
+# どれも付けないと ML の部分はビルドされない: beat_this::available() / stems::available() が false を返し、
+# detect / separate はエラーを返す（ONNX Runtime なしでふだんの cargo build / cargo test が通るように）。
+# 分離した音の保存・読み込み（Ogg Vorbis）は ML と関係なくいつも入る
+ml = ["dep:ort"]
+ort-download = ["ml", "ort/download-binaries"]
+ort-dynamic = ["ml", "ort/load-dynamic"]
+coreml = ["ort?/coreml"]
+
+[dependencies]
+anyhow = "1"
+thiserror = "1"
+log = { version = "0.4", features = ["std"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+parking_lot = "0.12"
+once_cell = "1"
+regex = "1"
+half = "2"
+encoding_rs = "0.8"
+rand = "0.8"
+rayon = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
+rustfft = "6"
+realfft = "3"
+ndarray = "0.16"
+walkdir = "2"
+lofty = "0.21"
+plist = "1"
+percent-encoding = "2"
+hound = "3"
+signalsmith-stretch = "0.1.3"
+tokio = { version = "1", features = ["full"] }
+axum = { version = "0.7", features = ["ws", "multipart"] }
+tower = { version = "0.5", features = ["util"] }
+tower-http = { version = "0.5", features = ["fs", "set-header"] }
+futures-util = "0.3"
+bytes = "1"
+mime_guess = "2"
+djmix-window = { path = "window", optional = true }
+libc = "0.2"
+form_urlencoded = "1"
+unicode-normalization = "0.1"
+base64 = "0.22"
+
+ort = { version = "=2.0.0-rc.10", default-features = false, features = ["std", "ndarray"], optional = true }
+# 分離した音の保存（8ch の Ogg Vorbis。libvorbis / libogg は同梱の C を cc でビルドする）。
+# 書き込みは vorbis_rs、サンプル単位のシーク付きの読み込みは vorbisfile（ov_pcm_seek）を直接使う
+vorbis_rs = { version = "0.5.6", default-features = false }
+aotuv_lancer_vorbis_sys = "0.1.6"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+midir = "0.10"
+
+[dev-dependencies]
+tempfile = "3"
+flate2 = "1"
+base64 = "0.22"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+
+[profile.dev.package."*"]
+opt-level = 2
