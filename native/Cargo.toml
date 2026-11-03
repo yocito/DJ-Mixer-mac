@@ -1,0 +1,66 @@
+[package]
+name = "djmix"
+version = "0.1.0"
+edition = "2021"
+description = "DJ Mixer for macOS (Rust port of the Windows/Python version)"
+license = "MIT"
+default-run = "djmix"
+
+[lib]
+name = "djmix"
+path = "src/lib.rs"
+
+[[bin]]
+name = "djmix"
+path = "src/main.rs"
+
+[features]
+default = []
+# 専用ウィンドウ（tao + wry）。テストではウィンドウを作らないので外せるようにしておく
+window = ["dep:tao", "dep:wry", "dep:rfd"]
+
+[dependencies]
+anyhow = "1"
+thiserror = "1"
+log = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+parking_lot = "0.12"
+once_cell = "1"
+regex = "1"
+half = "2"
+encoding_rs = "0.8"
+rand = "0.8"
+rayon = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
+rustfft = "6"
+realfft = "3"
+ndarray = "0.16"
+walkdir = "2"
+lofty = "0.21"
+plist = "1"
+percent-encoding = "2"
+hound = "3"
+signalsmith-stretch = "0.1.3"
+tokio = { version = "1", features = ["full"] }
+axum = { version = "0.7", features = ["ws", "multipart"] }
+tower = "0.4"
+tower-http = { version = "0.5", features = ["fs", "set-header"] }
+futures-util = "0.3"
+bytes = "1"
+mime_guess = "2"
+tao = { version = "0.30", optional = true }
+wry = { version = "0.47", optional = true }
+rfd = { version = "0.15", optional = true }
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+
+[profile.dev.package."*"]
+opt-level = 2

@@ -8,3 +8,6 @@ DJ Mixer.lnk
 
 # ミックスの曲解説は Obsidian（趣味/音楽/フュージョン）で管理する（2026-11-01）
 mix_notes/
+
+# Rust のビルド結果
+native/target/
